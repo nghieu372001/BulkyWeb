@@ -1,0 +1,61 @@
+﻿@model Category //Category:kiểu dữ liệu của object ở bên controller truyền qua và lưu vào @model. Đang được truyền object (có dữ liệu) từ method Edit ở Controller Category: method Edit (sử dụng cho View)
+@* (Lưu ý khi sử dụng các thuộc tính(property) trong object do controller truyền qua thì chỉ cần sử dụng trực tiếp. Ví dụ proprty Name (asp-for="Name"). Trong đó Name chính là property của object do Controller truyền qua) *@
+
+<div class="card shadow border-0 mt-4">
+    <div class="card-header bg-secondary bg-gradient ml-0 py-3">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h2 class="text-white py-2">Edit Category</h2>
+            </div>
+        </div>
+    </div>
+    <div class="card-body p-4">
+        <form method="post">
+            <!--Bởi vì là Id nên có thể không cần khai báo thẻ input cho Id. Mặc định (Default) sẽ tự động tạo -->
+            <input asp-for="Id" hidden />
+            <div class="border p-3 m-4">
+                <div class="row pb-2">
+                    <h2 class="text-primary">Update Category</h2>
+                    <hr />
+                </div>
+                <div asp-validation-summary="All"></div>
+                <div class="mb-3 row p-1">
+                    <label asp-for="Name" class="p-0"></label>
+                    <!--Khi được truyền object có dữ liệu từ Controller thì các property tự động điền dữ liệu vào [thẻ input] nhờ tag-helper asp-for="Name"-->
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="mb-3 row p-1">
+                    <label asp-for="DisplayOrder" class="p-0"></label>
+                    <!--Khi được truyền object có dữ liệu từ Controller thì các property tự động điền dữ liệu vào [thẻ input] nhờ tag-helper asp-for="DisplayOrder"-->
+                    <input asp-for="DisplayOrder" class="form-control" />
+                    <span asp-validation-for="DisplayOrder" class="text-danger"></span>
+                </div>
+
+                <div class="row">
+                    <div class="col-6 col-md-3">
+                        <!--khi nhấn Update thì sẽ gửi (submit) với phương thức post cùng entry point với thư mục file ở view ==> POST:../Category/Edit => Controller: Category, Action: Edit -->
+                        <!--Có thể hiểu: model đang nhận object kiểu Category từ Controller, sau đó các property của object sẽ được chỉnh sửa giá trị từ form nhập,
+                            và khi nhấn submit sẽ gửi object có kiểu Category (các property đã được chỉnh sửa giá trị) sang cho Controller: [HttpPost] Edit
+                        -->
+                        <button type="submit" class="btn btn-primary form-control">Update</button>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <a asp-controller="Category" asp-action="Index" class="btn  btn-outline-secondary border form-control">
+                            Back
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        //import file _ValidationScriptsPartial.cshtml (thư mục View/Shared/_ValidationScriptsPartial.cshtml)
+        //Add JavaScript need for Client Side Validation. Lưu ý các đoạn JavaScript này là chuẩn của ASP.NET CORE, sẽ tự động Valition các Property từ Client Side.
+        //Sẽ kiểm tra giống hệt như Server Side Validtion, nhưng sẽ thực hiện từ Client Side. Lưu ý chỉ kiểm tra các validation từ data notation trong model (Category.cs) chớ không kiểm tra các valition custom từ AddModelError
+        <partial name="_ValidationScriptsPartial" />
+    }
+}

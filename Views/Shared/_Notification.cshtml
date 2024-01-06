@@ -1,0 +1,21 @@
+﻿@*Conmment: TempData["success"] sẽ hiển thị câu thông báo. Câu thông báo được khai báo ở các post method trong thư mục Controller/CategoryController.cs )  *@
+@*Conmment: Lưu ý câu thông báo chỉ được hiển thị trong 1 lần. Request lại sẽ bị mất  *@
+@if (TempData["success"] != null)
+{
+    <script src="/lib/jquery//dist/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script type="text/javascript">
+        toastr.success('@TempData["success"]'); 
+    </script>
+    @* <h2>@TempData["success"]</h2> *@
+}
+@if (TempData["error"] != null)
+{
+    <script src="/lib/jquery//dist/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script type="text/javascript">
+        toastr.success('@TempData["error"]');
+    </script>
+
+    @* <h2>@TempData["error"]</h2> *@
+}

@@ -1,0 +1,76 @@
+﻿@model Category //Category:kiểu dữ liệu của object ở bên controller truyền qua và lưu vào @model. Đang được truyền object rỗng có kiểu Category từ method Create() ở Controller: Controllers/CategoryController.cs
+@* (Lưu ý khi sử dụng các thuộc tính(property) trong object do controller truyền qua thì chỉ cần sử dụng trực tiếp. Ví dụ proprty Name(asp-for="Name"). Trong đó Name chính là property của object do Controller truyền qua) *@
+
+<div class="card shadow border-0 mt-4">
+    <div class="card-header bg-secondary bg-gradient ml-0 py-3">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h2 class="text-white py-2">Create Category</h2>
+            </div>
+        </div>
+    </div>
+    <div class="card-body p-4">
+        <form method="post" class="row">
+            <div class="border p-3">
+                <div class="form-floating py-2 col-12" hidden>
+                    <!--Bởi vì là Id nên có thể không cần khai báo thẻ input cho Id. Mặc định (Default) sẽ tự động tạo. Vì là tạo mới nên Id = 0 -->
+                    <input asp-for="Id" value="0" hidden />
+                </div>
+                <!--asp-validation-summary="All": sẽ hiển thị tất cả các lỗi validtion trong thẻ div.-->
+                <!--asp-validation-summary="Model": sẽ hiển thị các lỗi validition custom (AddModelError trong Controller) trong thẻ div.-->
+                <!--asp-validation-summary="None": sẽ không hiển thị lỗi nào trong thẻ div.-->
+                <div asp-validation-summary="All"></div>
+                <div class="form-floating py-2 col-12">
+                    <!--asp-for="Name" trong thẻ input: input cho thuộc tính (property) Name của Categoty thay vì name="Name" -->
+                    <!--asp-for="Name" trong thẻ input: tự tạo id cho input = "Input_Name" -->
+                    <!--Không cần phải định nghĩa thuộc tính type trong input, vì type sẽ được định nghĩa theo property Name của Category (asp-for="Name") -->
+                    <input asp-for="Name" class="form-control border-0 shadow" />
+                    <!--asp-for="Name": Name chính là property Name trong object rỗng (object rỗng được truyền  từ Controller: Controllers/CategoryController.cs)-->
+                    <!--asp-for="Name" trong thẻ lable sẽ tự động điền tên của property (theo DisplayName trong model) cho label ==> <label class="p-0">Name</label> -->
+                    <label asp-for="Name" class="ms-2"></label>
+                    <!--asp-validation-for="Name": check tính hợp lệ của property Name và hiển thị lỗi. Kiểm tra dựa vào các data notation ở bên Model Category (thư mục Model/Categories.cs) -->
+                    <span asp-validation-for="Name" class="text-danger "></span>
+                </div>
+                <div class="form-floating py-2 col-12">
+                    <!--asp-for="DisplayOrder" trong thẻ input: input cho thuộc tính (property) DisplayOrder của Categoty thay vì name="DisplayOrder" -->
+                    <!--asp-for="DisplayOrder" trong thẻ input: tự tạo id cho input = "Input_DisplayOrder" -->
+                    <!--Không cần phải định nghĩa thuộc tính type trong input, vì type sẽ được định nghĩa theo property DisplayOrder của Category (asp-for="DisplayOrder") -->
+                    <input asp-for="DisplayOrder" class="form-control border-0 shadow" />
+                    <!--asp-validation-for="DisplayOrder": check tính hợp lệ của property DisplayOrder và hiển thị lỗi. Kiểm tra dựa vào các data notation ở bên Model Category (thư mục Model/Categories.cs) -->
+                    <!--asp-for="DisplayOrder": Name chính là property DisplayOrder trong object rỗng (object rỗng được truyền  từ Controller: Controllers/CategoryController.cs)-->
+                    <!--asp-for="DisplayOrder" trong thẻ lable sẽ tự động điền tên của property (theo DisplayName trong model) cho label ==> <label class="p-0">Display Order</label> -->
+                    <label asp-for="DisplayOrder" class="ms-2"></label>
+                    <span asp-validation-for="DisplayOrder" class="text-danger "></span>
+                </div>
+                <div class="row pt-2">
+                    <div class="col-6 col-md-3">
+                        <!--khi nhấn submit thì sẽ gửi (submit) với phương thức post cùng entry point với thư mục file ở view ==> POST:../Category/Create => Controller: Category, Action: Create -->
+                        <!--Có thể hiểu: model đang nhận object rỗng kiểu Category từ Controller, sau đó các property của object sẽ được điền giá trị từ form nhập,
+                            và khi nhấn submit sẽ gửi object có kiểu Category (các property đã có giá trị) sang cho Controller: [HttpPost] Create
+                            Lưu ý: Kể cả không khai báo asp-area là Admin hay Customer thì khi submit POST:../Category/Create thì phần ... sẽ lấy url ở hiện tại.
+                            Ví dụ: đang ở trang danh sách Category: GET-https://localhost:7149/Admin/Category và khi nhấn chuyển trang sang trang create Category thì GET-https://localhost:7149/Admin/Category/Create
+                            Suy ra đoạn ... bằng -https://localhost:7149/Admin/
+                        -->
+                        <button type="submit" class="btn btn-primary form-control">Create</button>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <a asp-controller="Category" asp-action="Index" class="btn btn-outline-primary border form-control">
+                            Back
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    @{
+        //import file _ValidationScriptsPartial.cshtml (thư mục View/Shared/_ValidationScriptsPartial.cshtml)
+        //Add JavaScript need for Client Side Validation. Lưu ý các đoạn JavaScript này là chuẩn của ASP.NET CORE, sẽ tự động Valition các Property từ Client Side.
+        //Sẽ kiểm tra giống hệt như Server Side Validtion, nhưng sẽ thực hiện từ Client Side. Lưu ý chỉ kiểm tra các validation từ data notation trong model (Category.cs) chớ không kiểm tra các valition custom từ AddModelError 
+        <partial name="_ValidationScriptsPartial" />
+    }
+}

@@ -1,0 +1,8 @@
+﻿@model int
+@*
+    Thư mục Views/Shared/Components/ShoppingCart --> tên thư mục ShoppingCart phải giống với tên của file trong thư mục ViewComponents/[ShoppingCart]ViewComponent.cs --> phải giống ShoppingCart
+    Khi sử dụng View Components thì tên file phải là Default.cshtml cho thư mục ShoppingCart của thư mục Components
+    @model sẽ map nhứng thứ được return từ method InvokeAysnc của class ShoppingCartViewComponent trong thư mục ViewComponents/ShoppingCartViewComponent.cs
+*@
+
+<i class="bi bi-cart"></i> &nbsp;(@Model)
